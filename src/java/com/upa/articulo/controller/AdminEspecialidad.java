@@ -45,41 +45,51 @@ public class AdminEspecialidad extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Hola Servlet..");
-        String action = request.getParameter("action");
-        System.out.println(action);
-        switch (action) {
-            case "index":
-                //index(request, response);
+        try {
+            System.out.println("Hola Servlet..");
+            String action = request.getParameter("action");
+            System.out.println(action);
+            switch (action) {
+                case "index":
+                    //index(request, response);
+                    break;
+                case "nuevo":
+                    //nuevo(request, response);
+                    break;
+                case "nuevoHospital":
+                    System.out.println("entro");
+                    //nuevoHospital(request, response);
+                    break;
+                case "mostrar":
+                    System.out.println("mostrar");
+                    {
+                        try {
+                            mostrar(request, response);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                case "showedit":
+                {
+                    try {
+                        showEditar(request, response);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
-            case "nuevo":
-                //nuevo(request, response);
-                break;
-            case "nuevoHospital":
-                System.out.println("entro");
-                //nuevoHospital(request, response);
-                break;
-            case "mostrar":
-                System.out.println("mostrar");
-        {
-            try {
-                mostrar(request, response);
-            } catch (SQLException ex) {
-                Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+                case "editar":
+                    //editar(request, response);
+                    break;
+                case "eliminar":
+                    eliminar(request, response);
+                    break;
+                default:
+                    break;
             }
-        }
-                break;
-            case "showedit":
-                //showEditar(request, response);
-                break;
-            case "editar":
-                //editar(request, response);
-                break;
-            case "eliminar":
-                //eliminar(request, response);
-                break;
-            default:
-                break;
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -96,41 +106,57 @@ public class AdminEspecialidad extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        System.out.println("Hola Servlet post..");
-        String action = request.getParameter("action");
-        System.out.println(action);
-        switch (action) {
-            case "index":
-                //index(request, response);
+        try {
+            System.out.println("Hola Servlet post..");
+            String action = request.getParameter("action");
+            System.out.println(action);
+            switch (action) {
+                case "index":
+                    //index(request, response);
+                    break;
+                case "nuevo":
+                    //nuevo(request, response);
+                    break;
+                case "nuevoEspecialidad":
+                    System.out.println("entro");
+                    {
+                        try {
+                            nuevoEspecialidad(request, response);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                case "mostrar":
+                    System.out.println("mostrar");
+                    //mostrar(request, response);
+                    break;
+                case "showedit":
+                {
+                    try {
+                        showEditar(request, response);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
-            case "nuevo":
-                //nuevo(request, response);
+                case "editar":
+                {
+                    try {
+                        editar(request, response);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 break;
-            case "nuevoEspecialidad":
-                System.out.println("entro");
-        {
-            try {
-                nuevoEspecialidad(request, response);
-            } catch (SQLException ex) {
-                Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+                case "eliminar":
+                    eliminar(request, response);
+                    break;
+                default:
+                    break;
             }
-        }
-                break;
-            case "mostrar":
-                System.out.println("mostrar");
-                //mostrar(request, response);
-                break;
-            case "showedit":
-                //showEditar(request, response);
-                break;
-            case "editar":
-                //editar(request, response);
-                break;
-            case "eliminar":
-                //eliminar(request, response);
-                break;
-            default:
-                break;
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -147,12 +173,31 @@ public class AdminEspecialidad extends HttpServlet {
         dispatcher.forward(request, response);
         
     }
+    private void showEditar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        
+        Especialidad especialidad = especialidadDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
+        request.setAttribute("especialidad", especialidad);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/editarEspecialidad.jsp");
+        dispatcher.forward(request, response);
+    }
+    
+    private void editar(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        Especialidad especialidad = new Especialidad(Integer.parseInt(request.getParameter("idEspecialidad")),request.getParameter("nombre"));
+        especialidadDAO.actualizar(especialidad);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+        
+    }
+    
+    private void eliminar(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        Especialidad especialidad = especialidadDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
+        especialidadDAO.eliminar(especialidad);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    }
+
+    
     @Override
     public String getServletInfo() {
         return "Short description";

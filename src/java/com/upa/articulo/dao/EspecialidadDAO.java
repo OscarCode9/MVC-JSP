@@ -79,13 +79,13 @@ public class EspecialidadDAO {
 		return listarEspecialidad;
 	}
     
-    public boolean eliminar(Hospitales hospital) throws SQLException {
+    public boolean eliminar(Especialidad especialidad) throws SQLException {
 		boolean rowEliminar = false;
-		String sql = "DELETE FROM Hospitales WHERE idHospital =?";
+		String sql = "DELETE FROM Especialidades WHERE idEspecialidad =?";
 		con.conectar();
 		connection = con.getJdbcConnection();
 		PreparedStatement statement = connection.prepareStatement(sql);
-		statement.setInt(1,  hospital.getIdHospital());
+		statement.setInt(1,  especialidad.getIdEspecialidad());
 
 		rowEliminar = statement.executeUpdate() > 0;
 		statement.close();
@@ -93,11 +93,11 @@ public class EspecialidadDAO {
 
 		return rowEliminar;
 	}
-    public Hospitales obtenerPorId(int id) throws SQLException {
-		Hospitales hospital = null;
+    public Especialidad obtenerPorId(int id) throws SQLException {
+		Especialidad especialidad = null;
 
 		String sql = "SELECT * FROM "
-                        + "Hospitales WHERE idHospital = ? ";
+                        + "Especialidades WHERE idEspecialidad = ? ";
 		con.conectar();
 		connection = con.getJdbcConnection();
 		PreparedStatement statement = 
@@ -106,31 +106,29 @@ public class EspecialidadDAO {
 
 		ResultSet res = statement.executeQuery();
 		if (res.next()) {
-			hospital = 
-               new Hospitales(res.getInt("idHospital"), 
-                       res.getString("nombre"), res.getString("direccion"),
-					res.getString("telefono"));
+			especialidad = 
+               new Especialidad(res.getInt("idEspecialidad"), 
+                       res.getString("nombre"));
 		}
 		res.close();
 		con.desconectar();
 
-		return hospital;
+		return especialidad;
 	}
     
-    public boolean actualizar(Hospitales hospital) throws SQLException {
+    public boolean actualizar(Especialidad especialidad) throws SQLException {
         
 		boolean rowActualizar = false;
                 
-		String sql = "UPDATE Hospitales SET "
-                        + "nombre=?, direccion=?,telefono=? WHERE idHospital=?";
+		String sql = "UPDATE Especialidades SET "
+                        + "nombre=? WHERE idEspecialidad=?";
 		con.conectar();
 		connection = con.getJdbcConnection();
 		PreparedStatement statement = connection.prepareStatement(sql);
                 
-		statement.setString(1, hospital.getNombre());
-		statement.setString(2, hospital.getDireccion());
-		statement.setString(3, hospital.getTelefono());
-		statement.setInt(4, hospital.getIdHospital());
+		statement.setString(1,especialidad.getNombre());
+		statement.setInt(2, especialidad.getIdEspecialidad());
+		
 
 		rowActualizar = statement.executeUpdate() > 0;
                 
