@@ -5,8 +5,13 @@
  */
 package com.upa.articulo.controller;
 
+import com.upa.articulo.dao.IngresosDAO;
+import com.upa.articulos.model.Hospitales;
+import com.upa.articulos.model.Ingresos;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +24,20 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "AdminIngresos", urlPatterns = {"/AdminIngresos"})
 public class AdminIngresos extends HttpServlet {
+    
+    IngresosDAO IngresosDAO;
+    
+    public void init() {
+        String jdbcURL = getServletContext().getInitParameter("jdbcURL");
+        String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
+        String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
+        try {
+            IngresosDAO = new IngresosDAO(jdbcURL, jdbcUsername, jdbcPassword);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,20 +54,45 @@ public class AdminIngresos extends HttpServlet {
             out.println("</html>");
         }
     }
+    private void nuevoIngreso(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        
+        Ingresos ingreso = new Ingresos(0,
+                Integer.parseInt(request.getParameter("idHospital")),
+                Integer.parseInt(request.getParameter("idEnfermo")),
+                request.getParameter("fechaNacimiento"),
+                request.getParameter("causas"),
+                Integer.parseInt(request.getParameter("habitacion"))
+        );
+        
+        
+        boolean resul = IngresosDAO.insertar(ingreso);
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        
+        dispatcher.forward(request, response);
+        
+    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("Hola Servlet..");
+        String action = request.getParameter("action");
+        System.out.println(action);
+        try {
+            switch (action) {
+                
+                case "eliminar":
+                    System.out.println("entro");
+                    eliminar(request, response);
+                    break;
+                default:
+                    break;
+            }
+        } catch (SQLException e) {
+            e.getStackTrace();
+        }
     }
 
     /**
@@ -72,14 +106,35 @@ public class AdminIngresos extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("Hola Servlet..");
+        String action = request.getParameter("action");
+        System.out.println(action);
+        try {
+            switch (action) {
+                
+                case "nuevoIngreso":
+                    System.out.println("entro");
+                    nuevoIngreso(request, response);
+                    break;
+                default:
+                    break;
+            }
+        } catch (SQLException e) {
+            e.getStackTrace();
+        }
+    }
+    
+    private void eliminar(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        
+        Ingresos ingreso = IngresosDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
+        IngresosDAO.eliminar(ingreso);
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+
     @Override
     public String getServletInfo() {
         return "Short description";

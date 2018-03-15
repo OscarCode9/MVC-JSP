@@ -6,11 +6,15 @@
 package com.upa.articulo.controller;
 
 import com.upa.articulo.dao.DoctoresDAO;
+import com.upa.articulo.dao.EnfermosDAO;
 import com.upa.articulo.dao.EspecialidadDAO;
 import com.upa.articulo.dao.HospitalesDAO;
+import com.upa.articulo.dao.IngresosDAO;
 import com.upa.articulos.model.Doctores;
+import com.upa.articulos.model.Enfermos;
 import com.upa.articulos.model.Especialidad;
 import com.upa.articulos.model.Hospitales;
+import com.upa.articulos.model.Ingresos;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,6 +36,8 @@ public class AdminHospitales extends HttpServlet {
     HospitalesDAO HospitalesDAO;
     EspecialidadDAO especialidadDAO;
     DoctoresDAO DoctoresDAO;
+    EnfermosDAO EnfermosDAO;
+    IngresosDAO IngresosDAO; 
     public void init() {
         String jdbcURL = getServletContext().getInitParameter("jdbcURL");
         String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
@@ -41,6 +47,9 @@ public class AdminHospitales extends HttpServlet {
              HospitalesDAO = new  HospitalesDAO(jdbcURL, jdbcUsername, jdbcPassword);
              especialidadDAO = new EspecialidadDAO(jdbcURL, jdbcUsername, jdbcPassword);
              DoctoresDAO = new DoctoresDAO(jdbcURL, jdbcUsername, jdbcPassword);
+             EnfermosDAO = new EnfermosDAO(jdbcURL, jdbcUsername, jdbcPassword);
+             IngresosDAO = new IngresosDAO(jdbcURL, jdbcUsername, jdbcPassword);
+             
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -131,7 +140,17 @@ public class AdminHospitales extends HttpServlet {
         request.setAttribute("hospital", hospital);
         List<Especialidad> listaEspecialidad = especialidadDAO.listarEspecialidad();
         
+        List<Enfermos> listaEnfermos = EnfermosDAO.listarEnfermos();
+        
+        List<Ingresos> listaIngresos = IngresosDAO.listarIngresos(hospital.getIdHospital());
+        
+        request.setAttribute("listaIngresos", listaIngresos);
+        
+        
+        request.setAttribute("listaEnfermo", listaEnfermos);
+        
         request.setAttribute("listaEspecialidad", listaEspecialidad);
+        
         
         List<Doctores> doctor = DoctoresDAO.listarDoctoresByHospital(hospital.getIdHospital());
         
@@ -153,7 +172,6 @@ public class AdminHospitales extends HttpServlet {
     private void nuevoHospital(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         
         Hospitales hospital = new Hospitales(0, request.getParameter("nombre"), request.getParameter("direccion"), request.getParameter("telefono"));
-        
         HospitalesDAO.insertar(hospital);
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");

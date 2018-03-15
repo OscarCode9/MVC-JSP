@@ -22,19 +22,31 @@ package com.upa.articulos.model;
     FOREIGN KEY (idEnfermo) REFERENCES Enfermos(idEnfermo)
 );*/
 public class Ingresos {
+    private int idIngresos;
     private int idHospital;
     private int idEnfermo;
     private String fecha;
     private String causas;
-    private String habitacion;
+    private int habitacion;
 
-    public Ingresos(int idHospital, int idEnfermo, String fecha, String causas, String habitacion) {
+    public Ingresos(int idIngresos, int idHospital, int idEnfermo, String fecha, String causas, int habitacion) {
+        
+        this.idIngresos = idIngresos;
         this.idHospital = idHospital;
         this.idEnfermo = idEnfermo;
         this.fecha = fecha;
         this.causas = causas;
         this.habitacion = habitacion;
     }
+
+    public int getIdIngresos() {
+        return idIngresos;
+    }
+
+    public void setIdIngresos(int idIngresos) {
+        this.idIngresos = idIngresos;
+    }
+    
 
     public void setIdHospital(int idHospital) {
         this.idHospital = idHospital;
@@ -52,7 +64,7 @@ public class Ingresos {
         this.causas = causas;
     }
 
-    public void setHabitacion(String habitacion) {
+    public void setHabitacion(int habitacion) {
         this.habitacion = habitacion;
     }
 
@@ -73,7 +85,7 @@ public class Ingresos {
         return causas;
     }
 
-    public String getHabitacion() {
+    public int getHabitacion() {
         return habitacion;
     }
     
