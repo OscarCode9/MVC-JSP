@@ -38,10 +38,11 @@
                         <c:forEach var="hospital" items="${lista}">
 
                             <tr>
-                                
+
                                 <td>
-                                    <c:out value="${hospital.idHospital}" />
-                                    
+                                    <a href="AdminHospitales?action=hospitalById&id=<c:out value="${hospital.idHospital}" />">
+                                        <c:out value="${hospital.idHospital}" />
+                                    </a>
                                 </td>
 
                                 <td>
@@ -55,11 +56,15 @@
                                 </td>
 
                                 <td>
-                                    
-                                    <a href="AdminHospitales?action=eliminar&id=<c:out value="${hospital.idHospital}"/>"><i class="fas fa-trash-alt"></i></a>
+
+                                    <a href="AdminHospitales?action=eliminar&id=<c:out value="${hospital.idHospital}"/>">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                                 </td>
                                 <td>
-                                    <a href="AdminHospitales?action=showedit&id=<c:out value="${hospital.idHospital}" />"><i class="fas fa-edit"></i></a>
+                                    <a href="AdminHospitales?action=showedit&id=<c:out value="${hospital.idHospital}" />">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                 </td>
 
                             </tr>
@@ -110,7 +115,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
         <script>
-        
+
         </script>
 
         </html>

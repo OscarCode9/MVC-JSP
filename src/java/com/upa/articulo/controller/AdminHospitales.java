@@ -5,11 +5,13 @@
  */
 package com.upa.articulo.controller;
 
-import com.upa.articulo.dao.ArticuloDAO;
+import com.upa.articulo.dao.DoctoresDAO;
+import com.upa.articulo.dao.EspecialidadDAO;
 import com.upa.articulo.dao.HospitalesDAO;
+import com.upa.articulos.model.Doctores;
+import com.upa.articulos.model.Especialidad;
 import com.upa.articulos.model.Hospitales;
 
-import com.upa.articulos.model.Articulo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -28,6 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AdminHospitales", urlPatterns = {"/AdminHospitales"})
 public class AdminHospitales extends HttpServlet {
     HospitalesDAO HospitalesDAO;
+    EspecialidadDAO especialidadDAO;
+    DoctoresDAO DoctoresDAO;
     public void init() {
         String jdbcURL = getServletContext().getInitParameter("jdbcURL");
         String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
@@ -35,6 +39,8 @@ public class AdminHospitales extends HttpServlet {
         try {
 
              HospitalesDAO = new  HospitalesDAO(jdbcURL, jdbcUsername, jdbcPassword);
+             especialidadDAO = new EspecialidadDAO(jdbcURL, jdbcUsername, jdbcPassword);
+             DoctoresDAO = new DoctoresDAO(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -97,6 +103,9 @@ public class AdminHospitales extends HttpServlet {
                     break;
                 case "eliminar":
                     eliminar(request, response);
+                case "hospitalById":
+                    hospitalById(request, response);
+                    
                     break;
                 default:
                     break;
@@ -113,6 +122,25 @@ public class AdminHospitales extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
+    }
+    
+    
+            
+     private void hospitalById(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        Hospitales hospital = HospitalesDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
+        request.setAttribute("hospital", hospital);
+        List<Especialidad> listaEspecialidad = especialidadDAO.listarEspecialidad();
+        
+        request.setAttribute("listaEspecialidad", listaEspecialidad);
+        
+        List<Doctores> doctor = DoctoresDAO.listarDoctoresByHospital(hospital.getIdHospital());
+        
+        request.setAttribute("listaDoctores", doctor);
+        
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/hospitalesByID.jsp");
+        dispatcher.forward(request, response);
+        
     }
     private void mostrar(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/hospitales.jsp");

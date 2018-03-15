@@ -23,12 +23,22 @@ import java.util.logging.Logger;
     FOREIGN KEY (idEspecialidad) REFERENCES Especialidades(idEspecialidad)
 */
 public class Doctores {
+    private int idDoctor;
+
+    public int getIdDoctor() {
+        return idDoctor;
+    }
     private String nombre; 
+
+    public void setIdDoctor(int idDoctor) {
+        this.idDoctor = idDoctor;
+    }
     private float salario;
     private int idEspecialidad;
     private int idHospital;
 
-    public Doctores(String nombre, float salario, int idEspecialidad, int idHospital) {
+    public Doctores(int idDoctor, String nombre, float salario, int idEspecialidad, int idHospital) {
+        this.idDoctor = idDoctor;
         this.nombre = nombre;
         this.salario = salario;
         this.idEspecialidad = idEspecialidad;

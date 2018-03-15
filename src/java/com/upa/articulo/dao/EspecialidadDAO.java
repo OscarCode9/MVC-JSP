@@ -18,10 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-/**
- *
- * @author oscarcode
- */
+
 public class EspecialidadDAO {
     private Conexion con;
     private Connection connection;
@@ -53,6 +50,8 @@ public class EspecialidadDAO {
 		con.desconectar();
 		return rowInserted;
 	}
+    
+    
     public List<Especialidad> listarEspecialidad() 
                 throws SQLException {
 
@@ -103,6 +102,28 @@ public class EspecialidadDAO {
 		PreparedStatement statement = 
                         connection.prepareStatement(sql);
 		statement.setInt(1, id);
+
+		ResultSet res = statement.executeQuery();
+		if (res.next()) {
+			especialidad = 
+               new Especialidad(res.getInt("idEspecialidad"), 
+                       res.getString("nombre"));
+		}
+		res.close();
+		con.desconectar();
+
+		return especialidad;
+	}
+    
+    public Especialidad obtenerPorNombre(String nombre) throws SQLException {
+		Especialidad especialidad = null;
+
+		String sql = "SELECT * FROM Especialidades WHERE nombre = ?;";
+		con.conectar();
+		connection = con.getJdbcConnection();
+		PreparedStatement statement = 
+                        connection.prepareStatement(sql);
+		statement.setString(1, nombre);
 
 		ResultSet res = statement.executeQuery();
 		if (res.next()) {

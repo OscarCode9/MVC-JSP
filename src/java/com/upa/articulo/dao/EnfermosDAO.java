@@ -122,7 +122,9 @@ public class EnfermosDAO {
     
     public boolean eliminar(Enfermos enfermo) throws SQLException {
 		boolean rowEliminar = false;
+                
 		String sql = "DELETE FROM Enfermos WHERE idEnfermo =?";
+                
 		con.conectar();
 		connection = con.getJdbcConnection();
 		PreparedStatement statement = connection.prepareStatement(sql);
@@ -130,7 +132,8 @@ public class EnfermosDAO {
 		statement.setInt(1,  enfermo.getIdEnfermo());
 
 		rowEliminar = statement.executeUpdate() > 0;
-		statement.close();
+		
+                statement.close();
 		con.desconectar();
 
 		return rowEliminar;
