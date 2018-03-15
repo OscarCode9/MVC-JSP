@@ -87,6 +87,8 @@ public class AdminIngresos extends HttpServlet {
                     System.out.println("entro");
                     eliminar(request, response);
                     break;
+                case "showedit":
+                    showEditar(request, response);
                 default:
                     break;
             }
@@ -116,6 +118,8 @@ public class AdminIngresos extends HttpServlet {
                     System.out.println("entro");
                     nuevoIngreso(request, response);
                     break;
+                case "editar": 
+                    editar(request, response);
                 default:
                     break;
             }
@@ -123,6 +127,34 @@ public class AdminIngresos extends HttpServlet {
             e.getStackTrace();
         }
     }
+    
+    private void showEditar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        Ingresos ingreso = IngresosDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
+        
+        
+        request.setAttribute("ingreso", ingreso);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/editarIngreso.jsp");
+        dispatcher.forward(request, response);
+    }
+    private void editar(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        Ingresos ingreso = new Ingresos(Integer.parseInt(request.getParameter("idIngresos")),
+                Integer.parseInt(request.getParameter("idHospital")),
+                Integer.parseInt(request.getParameter("idEnfermo")),
+                request.getParameter("fechaNacimiento"),
+                request.getParameter("causas"),
+                Integer.parseInt(request.getParameter("habitacion"))
+        );
+        
+        IngresosDAO.actualizar(ingreso);
+        
+        
+        
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+        
+    }
+    
     
     private void eliminar(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         

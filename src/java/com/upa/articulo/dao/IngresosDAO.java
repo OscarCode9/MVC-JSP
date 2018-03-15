@@ -132,4 +132,28 @@ public class IngresosDAO {
 		return ingreso;
 	}
     
+    public boolean actualizar(Ingresos ingreso) throws SQLException {
+        
+		boolean rowActualizar = false;
+                
+		String sql = "UPDATE Ingresos SET "
+                        + "idHospital=?, idEnfermo=?,fecha=STR_TO_DATE(?,'%d %M, %Y'), causas=?,  habitacion=? WHERE idIngresos=?";
+		con.conectar();
+		connection = con.getJdbcConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+                
+		statement.setInt(1, ingreso.getIdHospital());
+		statement.setInt(2, ingreso.getIdEnfermo());
+		statement.setString(3, ingreso.getFecha());
+		statement.setString(4, ingreso.getCausas());
+                statement.setInt(5, ingreso.getHabitacion());
+                statement.setInt(6, ingreso.getIdIngresos());
+
+		rowActualizar = statement.executeUpdate() > 0;
+                
+		statement.close();
+		con.desconectar();
+                
+		return rowActualizar;
+	}
 }

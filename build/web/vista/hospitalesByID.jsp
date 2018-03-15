@@ -79,12 +79,12 @@
 
                             <td>
 
-                                <a href="AdminDoctores?action=eliminar&id=<c:out value=" ${doctor.idDoctor} "/>">
+                                <a href="AdminDoctores?action=eliminar&id=<c:out value="${doctor.idDoctor}"/>">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </td>
                             <td>
-                                <a href="AdminDoctores?action=showedit&id=<c:out value=" ${doctor.idDoctor} " />">
+                                <a href="AdminDoctores?action=showedit&id=<c:out value="${doctor.idDoctor}" />">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </td>
@@ -135,11 +135,11 @@
                             </td>
 
                             <td>
-                                <c:out value="${ingresos.causas}" />
+                                <c:out value="${ingreso.causas}"/>
                             </td>
                             
                             <td>
-                                <c:out value="${ingresos.habitacion}" />
+                                <c:out value="${ingreso.habitacion}" />
                             </td>
 
                             <td>
@@ -166,6 +166,19 @@
             
             
 
+        </div>
+
+
+        <div id="modal3" class="modal">
+                <div class="modal-content">
+                    <h4>Agregar Doctor un nuevo atencion</h4>
+
+
+                    
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
         </div>
 
 
@@ -277,7 +290,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="btn-floating green btn modal-trigger tooltipped" data-position="top" data-delay="50" data-tooltip="Agregar especialidad"
+                    <a class="btn-floating black btn modal-trigger tooltipped" data-position="top" data-delay="50" data-tooltip="Agregar atencion"
                        data-target="modal3" href="#modal3">
                         <i class="fas fa-user-md"></i>
                     </a>
