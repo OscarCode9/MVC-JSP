@@ -22,19 +22,33 @@ CREATE TABLE Atencion (
     FOREIGN KEY (idIngresos) REFERENCES Ingresos(idIngresos)
 );
 */
-public class Atencion {
+public class Atenciones {
     
     private int idDoctor;
     private int idIngresos;
     private String comentarios;
     private String fecha;
+    private int idAtencion;
 
-    public Atencion(int idDoctor, int idIngresos, String comentarios, String fecha) {
+    public Atenciones(int idAtencion, int idDoctor, int idIngresos, String comentarios, String fecha) {
+        this.idAtencion = idAtencion;
         this.idDoctor = idDoctor;
         this.idIngresos = idIngresos;
         this.comentarios = comentarios;
         this.fecha = fecha;
     }
+
+    
+    public int getIdAtencion() {
+        return idAtencion;
+    }
+
+    public void setIdAtencion(int idAtencion) {
+        this.idAtencion = idAtencion;
+    }
+    
+    
+    
 
     public void setIdDoctor(int idDoctor) {
         this.idDoctor = idDoctor;

@@ -5,11 +5,13 @@
  */
 package com.upa.articulo.controller;
 
+import com.upa.articulo.dao.AtencionesDAO;
 import com.upa.articulo.dao.DoctoresDAO;
 import com.upa.articulo.dao.EnfermosDAO;
 import com.upa.articulo.dao.EspecialidadDAO;
 import com.upa.articulo.dao.HospitalesDAO;
 import com.upa.articulo.dao.IngresosDAO;
+import com.upa.articulos.model.Atenciones;
 import com.upa.articulos.model.Doctores;
 import com.upa.articulos.model.Enfermos;
 import com.upa.articulos.model.Especialidad;
@@ -38,6 +40,8 @@ public class AdminHospitales extends HttpServlet {
     DoctoresDAO DoctoresDAO;
     EnfermosDAO EnfermosDAO;
     IngresosDAO IngresosDAO; 
+    AtencionesDAO AtencionesDAO;
+    
     public void init() {
         String jdbcURL = getServletContext().getInitParameter("jdbcURL");
         String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
@@ -49,6 +53,7 @@ public class AdminHospitales extends HttpServlet {
              DoctoresDAO = new DoctoresDAO(jdbcURL, jdbcUsername, jdbcPassword);
              EnfermosDAO = new EnfermosDAO(jdbcURL, jdbcUsername, jdbcPassword);
              IngresosDAO = new IngresosDAO(jdbcURL, jdbcUsername, jdbcPassword);
+             AtencionesDAO = new AtencionesDAO(jdbcURL, jdbcUsername, jdbcPassword);
              
         } catch (Exception e) {
             // TODO: handle exception
@@ -144,7 +149,10 @@ public class AdminHospitales extends HttpServlet {
         
         List<Ingresos> listaIngresos = IngresosDAO.listarIngresos(hospital.getIdHospital());
         
+        List <Atenciones> listaAtenciones = AtencionesDAO.listarAtenciones();
+        
         request.setAttribute("listaIngresos", listaIngresos);
+        request.setAttribute("listaAtenciones", listaAtenciones);
         
         
         request.setAttribute("listaEnfermo", listaEnfermos);

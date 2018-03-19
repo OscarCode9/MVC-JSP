@@ -6,7 +6,11 @@
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/controller/AdminEspecialidad.java</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/dao/EspecialidadDAO.java</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/web/vista/hospitales.jsp</file>
+            <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulos/model/Atenciones.java</file>
+            <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/dao/AtencionesDAO.java</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/web/vista/editarHospital.jsp</file>
+            <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulos/model/Ingresos.java</file>
+            <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/dao/DoctoresDAO.java</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/web/vista/editar.jsp</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/controller/AdminArticulo.java</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/dao/ArticuloDAO.java</file>
@@ -15,8 +19,11 @@
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/web/vista/mostrar.jsp</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/nbproject/build-impl.xml</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulos/model/Hospitales.java</file>
+            <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/controller/AdminIngresos.java</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/controller/AdminHospitales.java</file>
             <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/web/index.jsp</file>
+            <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/controller/AdminDoctores.java</file>
+            <file>file:/home/oscarcode/Downloads/JSPArticulos%20(3)/src/java/com/upa/articulo/controller/AdminAtenciones.java</file>
         </group>
     </open-files>
 </project-private>

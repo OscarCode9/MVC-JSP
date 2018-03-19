@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminEnfermos extends HttpServlet {
 
     EnfermosDAO enfermoDAO;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

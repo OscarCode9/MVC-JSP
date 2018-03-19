@@ -145,6 +145,7 @@ public class AdminIngresos extends HttpServlet {
                 Integer.parseInt(request.getParameter("habitacion"))
         );
         
+        
         IngresosDAO.actualizar(ingreso);
         
         
@@ -160,7 +161,7 @@ public class AdminIngresos extends HttpServlet {
         
         Ingresos ingreso = IngresosDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
         IngresosDAO.eliminar(ingreso);
-        
+       
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
 
