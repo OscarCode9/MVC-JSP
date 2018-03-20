@@ -92,9 +92,6 @@
               </tr>
 
             </c:forEach>
-
-
-
           </tbody>
 
         </table>
@@ -153,13 +150,8 @@
                     <i class="fas fa-edit"></i>
                   </a>
                 </td>
-
               </tr>
-
             </c:forEach>
-
-
-
           </tbody>
 
         </table>
@@ -174,7 +166,6 @@
               <th>idIngresos</th>
               <th>comentarios</th>
               <th>fecha</th>
-              
               <th colspan=2>ACCIONES</th>
             </tr>
           </thead>
@@ -184,12 +175,6 @@
               <tr>
 
                 <td>
-
-                    
-                    
-                    
-                    
-                    
 
                   <c:out value="${atencion.idAtencion}" />
 
@@ -209,16 +194,14 @@
                   <c:out value="${atencion.fecha}" />
                 </td>
 
-                
-
                 <td>
 
-                  <a href="AdminIngresos?action=eliminar&id=<c:out value="${atencion.idAtencion}"/>">
+                  <a href="AdminAtenciones?action=eliminar&id=<c:out value="${atencion.idAtencion}"/>">
                     <i class="fas fa-trash-alt"></i>
                   </a>
                 </td>
                 <td>
-                  <a href="AdminIngresos?action=showedit&id=<c:out value="${atencion.idAtencion}" />">
+                  <a href="AdminAtenciones?action=showedit&id=<c:out value="${atencion.idAtencion}" />">
                     <i class="fas fa-edit"></i>
                   </a>
                 </td>
@@ -227,16 +210,8 @@
 
             </c:forEach>
 
-
-
           </tbody>
-
         </table>
-
-        
-
-
-
       </div>
 
 

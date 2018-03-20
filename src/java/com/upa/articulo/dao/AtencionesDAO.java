@@ -91,6 +91,71 @@ public class AtencionesDAO {
 		con.desconectar();
 		return listarAtencion;
 	}
+    public Atenciones obtenerPorId(int id) throws SQLException {
+		Atenciones atencion = null;
+
+		String sql = "SELECT * FROM "
+                        + "Atencion WHERE idAtencion = ? ";
+		con.conectar();
+		connection = con.getJdbcConnection();
+		PreparedStatement statement = 
+                        connection.prepareStatement(sql);
+		statement.setInt(1, id);
+
+		ResultSet res = statement.executeQuery();
+                
+		if (res.next()) {
+			atencion = 
+               new Atenciones(res.getInt("idAtencion"),
+                       res.getInt("idDoctor"),
+                       res.getInt("idIngresos"),
+                       res.getString("comentarios"),
+                       res.getString("fecha"));
+		}
+		res.close();
+		con.desconectar();
+
+		return atencion;
+	}
     
+    public boolean actualizar(Atenciones atencion) throws SQLException {
+        
+		boolean rowActualizar = false;
+                
+                
+		String sql = "UPDATE Atencion SET "
+                        + "idDoctor=?, idIngresos=?, comentarios=?, fecha=STR_TO_DATE(?,'%d %M, %Y') WHERE idAtencion=?";
+		con.conectar();
+		connection = con.getJdbcConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+                
+		statement.setInt(1, atencion.getIdDoctor());
+		statement.setInt(2, atencion.getIdIngresos());
+                statement.setString(3, atencion.getComentarios());
+                statement.setString(4, atencion.getFecha());
+                statement.setInt(5, atencion.getIdAtencion());
+                
+		rowActualizar = statement.executeUpdate() > 0;
+                
+		statement.close();
+		con.desconectar();
+                
+		return rowActualizar;
+	}
+    
+    public boolean eliminar(Atenciones atencion) throws SQLException {
+		boolean rowEliminar = false;
+		String sql = "DELETE FROM Atencion WHERE idAtencion =?";
+		con.conectar();
+ 		connection = con.getJdbcConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1,  atencion.getIdAtencion());
+
+		rowEliminar = statement.executeUpdate() > 0;
+		statement.close();
+		con.desconectar();
+
+		return rowEliminar;
+	}
     
 }

@@ -80,7 +80,24 @@ public class AdminAtenciones extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            System.out.println("Hola Servlet..");
+            String action = request.getParameter("action");
+            System.out.println(action);
+            switch (action) {
+                
+                case "showedit":
+                    System.out.println("entro");
+                    showEditar(request, response);
+                    break;
+                case "eliminar": 
+                    eliminar(request, response);
+                default:
+                    break;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminAtenciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -136,9 +153,41 @@ public class AdminAtenciones extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
     }
+    
+    private void showEditar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        Atenciones atencion = AtencionesDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
+        
+        request.setAttribute("atencion", atencion);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/vista/editarAtencion.jsp");
+        dispatcher.forward(request, response);
+    }
 
-    private void editar(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    
+    
+    
+
+    private void editar(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        
+         Atenciones atencion = new Atenciones(
+                Integer.parseInt(request.getParameter("idAtencion")),
+                Integer.parseInt(request.getParameter("idDoctor")),
+                Integer.parseInt(request.getParameter("idIngresos")),
+                request.getParameter("comentarios"),
+                request.getParameter("fecha"));
+
+        AtencionesDAO.actualizar(atencion);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+    }
+    
+    private void eliminar(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        Atenciones atencion = AtencionesDAO.obtenerPorId(Integer.parseInt(request.getParameter("id")));
+        AtencionesDAO.eliminar(atencion);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+
     }
 
 }
